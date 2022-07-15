@@ -37,6 +37,7 @@ class StoryPageView extends StatefulWidget {
     this.onPageBack,
     this.onPageForward,
     this.onStoryIndexChanged,
+    this.indicatorColor = Colors.grey,
   }) : super(key: key);
 
   /// Function to build story content
@@ -93,6 +94,9 @@ class StoryPageView extends StatefulWidget {
 
   /// Called whenever the user is clicks to go back or forward a story
   final void Function(int newStoryIndex)? onStoryIndexChanged;
+
+  /// Set the color for the indicator are waiting for the run
+  final Color indicatorColor;
 
   @override
   StoryPageViewState createState() => StoryPageViewState();
@@ -175,6 +179,7 @@ class StoryPageViewState extends State<StoryPageView> {
                   onStoryPaused: widget.onStoryPaused,
                   onStoryUnpaused: widget.onStoryUnpaused,
                   onStoryIndexChanged: widget.onStoryIndexChanged,
+                  indicatorColor: widget.indicatorColor,
                 ),
                 if (isPaging && !isLeaving)
                   Positioned.fill(
@@ -209,6 +214,7 @@ class StoryPageFrame extends StatefulWidget {
     required this.indicatorAnimationController,
     required this.onStoryPaused,
     required this.onStoryUnpaused,
+    this.indicatorColor = Colors.grey,
   }) : super(key: key);
   final int storyLength;
   final int initialStoryIndex;
@@ -222,6 +228,7 @@ class StoryPageFrame extends StatefulWidget {
   final ValueNotifier<IndicatorAnimationCommand>? indicatorAnimationController;
   final Function()? onStoryPaused;
   final Function()? onStoryUnpaused;
+  final Color indicatorColor;
 
   static Widget wrapped({
     required int pageIndex,
@@ -241,6 +248,7 @@ class StoryPageFrame extends StatefulWidget {
     required Function()? onStoryPaused,
     required Function()? onStoryUnpaused,
     required Function(int newStoryIndex)? onStoryIndexChanged,
+    Color indicatorColor = Colors.grey,
   }) {
     return MultiProvider(
       providers: [
@@ -282,6 +290,7 @@ class StoryPageFrame extends StatefulWidget {
         indicatorAnimationController: indicatorAnimationController,
         onStoryPaused: onStoryPaused,
         onStoryUnpaused: onStoryUnpaused,
+        indicatorColor: indicatorColor,
       ),
     );
   }
@@ -375,6 +384,7 @@ class StoryPageFrameState extends State<StoryPageFrame>
           isCurrentPage: widget.isCurrentPage,
           isPaging: widget.isPaging,
           padding: widget.indicatorPadding,
+          indicatorColor: widget.indicatorColor,
         ),
         Gestures(
           onStoryUnpaused: widget.onStoryUnpaused,
